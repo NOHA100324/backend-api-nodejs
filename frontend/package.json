@@ -1,0 +1,12 @@
+{
+  "name": "frontend-nova-salud",
+  "version": "1.0.0",
+  "description": "Frontend estático para el inventario de Nova Salud",
+  "private": true,
+  "scripts": {
+    "start": "npx live-server --port=5500 --entry-file=index.html"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

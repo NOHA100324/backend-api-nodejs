@@ -1,0 +1,11 @@
+{
+  "name": "nova-salud-inventario",
+  "version": "1.0.0",
+  "description": "Proyecto de inventario y ventas con backend en Node.js y frontend estático.",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "backend": "cd backend && npm install && npm start",
+    "frontend": "cd frontend && npm install && npm start"
+  }
+}

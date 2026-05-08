@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LenovoStore - Innovación para todos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header-main">
+    <div class="header-top">
+      <div class="header-container">
+        <div class="logo-area">
+          <h1 class="logo">Lenovo<span>Store</span></h1>
+        </div>
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="¿Qué estás buscando hoy?" />
+          <button id="search-button" class="search-btn">🔍</button>
+        </div>
+        <div class="header-nav">
+          <button class="nav-button" id="login-btn">🔑 Ingresar</button>
+          <button class="nav-button" id="register-btn">👤 Registrarse</button>
+          <button class="nav-button hidden" id="logout-btn">🚪 Salir</button>
+          <button class="nav-button" id="role-toggle-btn">🛡️ Modo Admin</button>
+          <button class="nav-button" id="cart-button">🛒 Carrito <span class="cart-count">0</span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Selection Bar (Simulated Login) -->
+  <div class="role-selector-bar">
+    <div class="header-container">
+      <span>Sesión actual: <strong id="current-role-display">Invitado</strong></span>
+      <div class="role-badges">
+        <span class="role-badge active" data-role="guest">Invitado</span>
+        <span class="role-badge" data-role="employee">Vendedor</span>
+        <span class="role-badge" data-role="admin">Administrador</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-container">
+    <!-- Sidebar Filters -->
+    <aside class="sidebar-filters">
+      <div class="filter-section">
+        <h3>Explorar</h3>
+        <nav class="side-nav">
+          <button class="side-nav-btn admin-only hidden" data-view="dashboard">📊 Dashboard</button>
+          <button class="side-nav-btn active" data-view="catalog">📦 Catálogo</button>
+          <button class="side-nav-btn admin-only hidden" data-view="employees">👥 Empleados</button>
+          <button class="side-nav-btn employee-only hidden" data-view="sales">🎫 Ventas / Facturación</button>
+        </nav>
+        <hr>
+        <div class="filter-group">
+          <label class="filter-label">Categoría</label>
+          <select id="category-filter" class="filter-select">
+            <option value="">Todas</option>
+            <option value="Laptops">Laptops</option>
+            <option value="2-in-1">2-in-1</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Workstations">Workstations</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Precio Máx</label>
+          <input type="number" id="price-filter" class="filter-input" placeholder="Sin límite" />
+        </div>
+        <button id="reset-filters" class="filter-reset">Limpiar filtros</button>
+      </div>
+    </aside>
+
+    <!-- Content Areas -->
+    <div class="content-area">
+      <!-- Dashboard -->
+      <section id="view-dashboard" class="view-section hidden">
+        <div class="view-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h2>Panel de Inteligencia de Negocios</h2>
+            <p>Análisis de ventas y rendimiento en tiempo real.</p>
+          </div>
+          <button class="btn-secondary" id="export-sales-btn">📊 Exportar CSV</button>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-icon">📈</span>
+            <div>
+              <p class="stat-label">Ventas Totales</p>
+              <p class="stat-value" id="dash-total-sales">$0.00</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🛒</span>
+            <div>
+              <p class="stat-label">Transacciones</p>
+              <p class="stat-value" id="dash-trans-count">0</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🌟</span>
+            <div>
+              <p class="stat-label">Producto Top</p>
+              <p class="stat-value" id="dash-top-product">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="table-container">
+          <h3>Historial de Transacciones Recientes</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Items</th>
+              </tr>
+            </thead>
+            <tbody id="sales-history-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Catalog -->
+      <section id="view-catalog" class="view-section">
+        <div class="products-header">
+          <div>
+            <h2>Catálogo de Laptops</h2>
+            <p>Gestiona productos o realiza ventas según tu rol.</p>
+          </div>
+          <div class="sort-controls">
+            <select id="sort-select" class="sort-select">
+              <option value="name">Ordenar: Nombre</option>
+              <option value="price-low">Precio: Menor a Mayor</option>
+              <option value="price-high">Precio: Mayor a Menor</option>
+            </select>
+          </div>
+        </div>
+        <div id="message" class="message"></div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-icon">💻</span>
+            <div>
+              <p class="stat-label">Modelos</p>
+              <p class="stat-value" id="product-count">0</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">💰</span>
+            <div>
+              <p class="stat-label">Valor Inv.</p>
+              <p class="stat-value" id="inventory-value">$0.00</p>
+            </div>
+          </div>
+        </div>
+        <div id="product-list" class="product-grid"></div>
+      </section>
+
+      <!-- Employees -->
+      <section id="view-employees" class="view-section hidden">
+        <div class="view-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Gestión de Personal</h2>
+          <button class="btn-primary" id="add-employee-btn">+ Nuevo Empleado</button>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="employee-list-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Sales -->
+      <section id="view-sales" class="view-section hidden">
+        <div class="sales-layout">
+          <div class="pos-products">
+            <h2>Punto de Venta</h2>
+            <div class="search-bar-inline" style="margin-bottom: 20px;">
+              <input type="text" id="pos-search" placeholder="Buscar por modelo o marca..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px;" />
+            </div>
+            <div id="pos-product-list" class="pos-grid"></div>
+          </div>
+          <div class="pos-cart">
+            <h3>Documento de Venta</h3>
+            <div class="cart-items" id="pos-cart-items">
+              <p class="empty-cart-msg">No hay productos seleccionados</p>
+            </div>
+            <div class="cart-summary">
+              <div class="summary-row"><span>Subtotal:</span> <span id="pos-subtotal">$0.00</span></div>
+              <div class="summary-row"><span>IGV (18%):</span> <span id="pos-tax">$0.00</span></div>
+              <div class="summary-row total"><span>Total:</span> <span id="pos-total">$0.00</span></div>
+            </div>
+            <div class="billing-type">
+              <label><input type="radio" name="bill-type" value="boleta" checked> Boleta</label>
+              <label><input type="radio" name="bill-type" value="factura"> Factura</label>
+            </div>
+            <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px;">
+              <button class="btn-primary btn-block" id="generate-bill-btn">Emitir Comprobante</button>
+              <button class="btn-secondary btn-block" id="clear-cart-btn">Vaciar Carrito</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modals -->
+  <div id="login-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Iniciar Sesión</h2>
+      <form id="login-form" class="form-grid" style="margin-top: 20px;">
+        <label>Correo Electrónico <input type="email" name="email" required /></label>
+        <label>Contraseña <input type="password" name="password" required /></label>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Ingresar</button>
+          <button type="button" class="btn-secondary" onclick="this.closest('.modal').classList.add('hidden')">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="register-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Crear Cuenta</h2>
+      <p style="margin-bottom: 20px; color: #666;">Únete a la comunidad LenovoStore.</p>
+      <form id="register-form" class="form-grid">
+        <label>Nombre Completo <input type="text" name="name" required /></label>
+        <label>Correo Electrónico <input type="email" name="email" required /></label>
+        <label>Contraseña <input type="password" name="password" required /></label>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Registrarse</button>
+          <button type="button" class="btn-secondary" onclick="this.closest('.modal').classList.add('hidden')">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="admin-panel" class="admin-panel hidden">
+    <div class="admin-container">
+      <h2>Edición de Producto</h2>
+      <form id="product-form" class="form-grid" enctype="multipart/form-data">
+        <input type="hidden" id="product-id" name="id" />
+        <div class="form-row-2">
+          <label>Nombre <input type="text" name="name" required /></label>
+          <label>Marca <input type="text" name="brand" required /></label>
+        </div>
+        <div class="form-row-2">
+          <label>Categoría <input type="text" name="category" required /></label>
+          <label>Imagen <input type="file" name="imageFile" accept="image/*" /></label>
+        </div>
+        <div class="form-row-3">
+          <label>Precio <input type="number" name="price" step="0.01" required /></label>
+          <label>Stock <input type="number" name="stock" required /></label>
+          <label>Descuento <input type="number" name="discount" value="0" /></label>
+        </div>
+        <div class="form-actions">
+          <button id="submit-button" type="submit" class="btn-primary">Guardar</button>
+          <button id="cancel-button" type="button" class="btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="bill-modal" class="modal hidden">
+    <div class="modal-content">
+      <div id="bill-print-area"></div>
+      <div class="modal-actions" style="margin-top: 20px; display: flex; gap: 10px;">
+        <button class="btn-primary" onclick="window.print()">🖨️ Imprimir</button>
+        <button class="btn-secondary" onclick="this.closest('.modal').classList.add('hidden')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer-main">
+    <div class="footer-bottom">
+      <p>&copy; 2026 LenovoStore. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

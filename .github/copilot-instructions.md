@@ -1,0 +1,5 @@
+- Verify that the copilot-instructions.md file in the .github directory exists and is updated.
+- Scaffold a simple Node.js REST API with Express, containerize it using Docker, and include a Jupyter notebook for Google Colab demonstration.
+- Ensure package.json, server.js, Dockerfile, docker-compose.yml, README.md, and api_and_colab_demo.ipynb are present.
+- Validate the Node.js service runs and the API endpoint returns data.
+- Keep project documentation concise and focused on the learning objectives.
