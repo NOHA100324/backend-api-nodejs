@@ -28,6 +28,7 @@ Este proyecto es una solución integral que demuestra la integración entre un b
     docker compose up --build
     ```
 3.  Accede a la API en `http://localhost:3000/api/products`.
+4.  Accede al Frontend en `http://localhost:5500`.
 
 ### Configuración de Google Colab
 
@@ -37,9 +38,7 @@ Este proyecto es una solución integral que demuestra la integración entre un b
 
 ### Interfaz Web (Frontend)
 
-1.  Dirígete a la carpeta `frontend`.
-2.  Ejecuta `npm install` y luego `npm start`.
-3.  Abre `http://localhost:5500` para gestionar el inventario visualmente.
+La interfaz se levanta automáticamente con Docker en el puerto 5500. Si deseas ejecutarla de forma independiente para desarrollo, puedes usar un servidor de archivos estáticos en la carpeta `frontend`.
 
 ---
 © 2026 LenovoStore - Proyecto Educativo de Integración Web.
